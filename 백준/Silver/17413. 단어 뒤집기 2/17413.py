@@ -23,5 +23,3 @@ for s in init:
             result += stack.pop()
         result += ' '
 print(result)
-
-    

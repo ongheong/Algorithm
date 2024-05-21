@@ -1,15 +1,5 @@
 function solution(num_list) {
-    var answer = 0;
-    if (num_list.length >= 11) {
-        for(let i = 0; i < num_list.length; i++){
-            answer += num_list[i];
-        }
-    }
-    else {
-        answer = 1;
-        for (let i=0; i<num_list.length; i++){
-            answer *= num_list[i];
-        }
-    }
-    return answer;
+    if(num_list.length >= 11) return num_list.reduce((acc, cur) => acc + cur, 0);
+    else return num_list.reduce((acc, cur) => acc * cur, 1);
 }
+//ver.2 코드 참고

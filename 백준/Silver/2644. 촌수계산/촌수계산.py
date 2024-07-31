@@ -1,32 +1,34 @@
-# 입력값 받는 부분
-N = int(input())
-A, B = map(int, input().split())
-M = int(input())
-graph = [[] for _ in range(N+1)]
-visited = [False] * (N+1)
+import sys
+
+input = sys.stdin.readline
+
+n = int(input())
+a, b = map(int, input().split())
+m = int(input())
+
+if a > b:
+    a, b = b, a
+
+family = [[] for _ in range(n+1)]
+visit = [0]*(n+1)
 result = []
-####
 
-# 어떤 노드들이 연결되어 있는지 graph라는 2차원 배열에 저장
-for _ in range(M):
-  x, y = map(int, input().split())  
-  graph[x].append(y)
-  graph[y].append(x)
+for _ in range(m):
+    x, y = map(int, input().strip().split()) #부모 x, 자식 y
+    family[x] += [y]
+    family[y] += [x]
 
-# dfs
-def dfs(v, num):
-  num += 1
-  visited[v] = True
+def dfs(v, cnt):
+    # global cnt
+    cnt += 1
+    # print(v, cnt)
+    if v == b:
+        result.append(cnt)
+    visit[v] = 1
+    for person in family[v]:
+        if visit[person] == 0:
+            dfs(person, cnt)
 
-  if v == B:
-    result.append(num)
-
-  for i in graph[v]:
-    if not visited[i]:
-      dfs(i, num)
-
-dfs(A, 0)
-if len(result) == 0:
-  print(-1)
-else:
-  print(result[0]-1)
+dfs(a, 0)
+if len(result) == 0: print(-1)
+else : print(result[0]-1)

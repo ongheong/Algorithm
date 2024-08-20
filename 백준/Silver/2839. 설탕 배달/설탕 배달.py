@@ -1,16 +1,15 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input().strip())
-num = 0
+n = int(input())
+cnt = 0
 
-while N >= 0 : #N이 3의 배수일 경우 포함
-    if N%5 == 0: #N이 0이어도 나머지는 0
-        num += N//5
-        print(num)
+while n >= 0:
+    if n % 5 == 0: #5의 배수이면
+        cnt += (n // 5) #5로 나눈 몫을 구하기
+        print(cnt)
         break
-    N -= 3
-    num += 1
-
-if N < 0 :
+    n -= 3 #5의 배수가 될 때까지 3씩 빼기
+    cnt += 1
+else:
     print(-1)

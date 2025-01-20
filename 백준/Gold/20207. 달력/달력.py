@@ -1,22 +1,22 @@
-N = int(input())
-calendar = [0]*367 #0을 제외하고 1~365일까지의 인덱스
-start, end = 365, 0
+n = int(input())
+canlender = [0] * 366
 
-for i in range(N):
-    s, e = map(int, input().strip().split())
-    start = min(start, s)
-    end = max(end, e)
-    for j in range(s, e+1):
-        calendar[j] += 1
+for _ in range(n):
+    s, e = map(int, input().split(' '))
 
-row, col, sum = 0, 0, 0
+    for i in range(s, e + 1):
+        canlender[i] += 1
 
-for i in range(start, end+2): # 전체 일정 이후에도 한번 더 돌아야 함
-    if calendar[i] != 0:
+row = 0
+col = 0
+ans = 0
+for i in range(366):
+    if canlender[i] != 0:
+        row = max(row, canlender[i])
         col += 1
-        row = max(row, calendar[i])
     else:
-        sum += row*col
-        row, col = 0, 0
-
-print(sum)
+        ans += row * col
+        row = 0
+        col = 0
+ans += row * col
+print(ans)

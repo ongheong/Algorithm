@@ -1,14 +1,18 @@
-from queue import PriorityQueue
+import heapq
 import sys
 input = sys.stdin.readline
 
-pq = PriorityQueue()
 n = int(input())
 
+heap = []
+
 for _ in range(n):
-    cmd = int(input())
-    if cmd == 0:
-        if pq.empty(): print(0) #앞 원소부터 삭제
-        else: print(pq.get())
-    else: 
-        pq.put(cmd)
+    num = int(input())
+    if num == 0:
+        if not heap:
+            print(0)
+            continue
+        print(heapq.heappop(heap))
+    else:
+        heapq.heappush(heap, num)
+    

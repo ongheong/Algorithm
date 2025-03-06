@@ -1,11 +1,20 @@
-dic = {}
+import sys
+input = sys.stdin.readline
+
 n = int(input())
+names = dict()
+
 for _ in range(n):
-    key, value = map(str, input().split())
-    dic[key] = value
-    if value == "leave" : del dic[key]
+    key, values = input().split()
+    names[key] = values
 
-ans = dict(sorted(dic.items(), reverse=True))
+answer = []
 
-for key in ans.keys():
-    print(key)
+for key, value in names.items():
+    if value == 'enter':
+        answer.append(key)
+
+answer.sort(reverse=True)
+
+for a in answer:
+    print(a)

@@ -1,33 +1,28 @@
-import sys
 from collections import deque
-input = sys.stdin.readline
+n, m = map(int, input().split())
 
-n, m = map(int, input().strip().split())
-maze = [[] for _ in range(n)]
-d = [[0, 1],[1, 0],[0, -1],[-1, 0]]
-visit = [[0]*m for _ in range(n)]
-answer = []
+map = [[] for _ in range(n)]
 
 for i in range(n):
-    maze[i] += list(map(int, input().strip()))
+    map[i] = [int(x) for x in input()]
 
-def bfs(x, y):
-    # deq = deque([[x, y]]) -> 이렇게 해야 리스트가 요소로 들어감
-    deq = deque()
-    deq.append([x, y])
-    visit[x][y] = 1
-    maze[x][y] = 1
-    while deq:
-        x, y = deq.popleft()
-        
-        if x == n-1 and y == m-1:
-            print(maze[x][y])
-            return
-        
+# 상 하 좌 우
+d = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+
+def bfs(row, col):
+    global cnt
+    stack = deque()
+    stack.append([row, col])
+    while stack:
+        row, col = stack.popleft()
+        cnt += 1
         for i in range(4):
-            dx, dy = x+d[i][0], y+d[i][1]
-            if 0 <= dx < n and 0 <= dy < m and maze[dx][dy] == 1 and visit[dx][dy] == 0:
-                deq.append([dx, dy])
-                maze[dx][dy] = maze[x][y]+1
+            drow = row + d[i][0]
+            dcol = col + d[i][1]
+            if 0 <= drow < n and 0 <= dcol < m and map[drow][dcol] == 1:
+                map[drow][dcol] = map[row][col] + 1 # 경로 횟수 누적값을 구하기 위함
+                stack.append([drow, dcol])
+    return map[n-1][m-1]
 
-bfs(0, 0)
+cnt = 0
+print(bfs(0, 0))

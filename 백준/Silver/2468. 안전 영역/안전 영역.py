@@ -1,33 +1,37 @@
 import sys
+from collections import deque
 input = sys.stdin.readline
-sys.setrecursionlimit(10**7)
 
 n = int(input())
-board = [list(map(int, input().split())) for _ in range(n)]
-dx = (1, -1, 0, 0)
-dy = (0, 0, 1, -1)
-cnt = 0
+area = [[] for _ in range(n)]
+d = [[-1, 0], [1, 0], [0, -1], [0, 1]]
 
+for i in range(n):
+    area[i] = list(map(int, input().split()))
 
-def dfs(x, y, h):
-    visited[x][y] = True
+max_num = max(map(max, area))
+answer = 1 # 하나도 물에 잠기지 않았을 경우부터 시작
 
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
+def bfs(x, y, target):
+    queue = deque([[x, y]])
+    while queue:
+        x, y = queue.popleft()
+        for i in range(4):
+            dx, dy = x + d[i][0], y + d[i][1]
+            if 0 <= dx < n and 0 <= dy < n and visited[dx][dy] == False:
+                visited[dx][dy] = True
+                if area[dx][dy] > target:
+                    queue.append([dx, dy])
 
-        if 0 <= nx < n and 0 <= ny < n and board[nx][ny] > h and not visited[nx][ny]:
-            dfs(nx, ny, h)
+for i in range(1, max_num):
+    visited = [[False]* n for _ in range(n)]
+    count = 0
+    for j in range(n):
+        for k in range(n):
+            if not visited[j][k] and area[j][k] > i:
+                visited[j][k] = True
+                bfs(j, k, i)
+                count += 1
+    answer = max(answer, count)
 
-
-for h in range(101):
-    _cnt = 0
-    visited = [[False for _ in range(n)] for _ in range(n)]
-    for i in range(n):
-        for j in range(n):
-            if board[i][j] > h and not visited[i][j]:
-                dfs(i, j, h)
-                _cnt += 1
-    cnt = max(cnt, _cnt)
-
-print(cnt)
+print(answer)

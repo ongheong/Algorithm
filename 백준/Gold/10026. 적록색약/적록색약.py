@@ -1,48 +1,48 @@
 import sys
-sys.setrecursionlimit(10**6)
-input = sys.stdin.readline
+sys.setrecursionlimit(1000000)
 
-n = int(input())
-arr = [[] for _ in range(n)]
+dy = [-1, 0, 0, 1]
+dx = [0, 1, -1, 0]
 
-for i in range(n):
-    arr[i] += list(map(str, input().strip()))
-d = [[0, 1], [1, 0], [0, -1], [-1, 0]] #우하좌상
+def find_area(y, x, color):
+    global dy, dx, N, visited_ok
 
-def dfs(x, y, c):
+    visited_ok[y][x] = True
+
     for i in range(4):
-        dx, dy = x+d[i][0], y+d[i][1]
-        if 0 <= dx < n and 0 <= dy < n and visit[dx][dy] == 0 and arr[dx][dy] == c:
-            visit[dx][dy] = 1
-            dfs(dx, dy, c)
+        ny, nx = y + dy[i], x + dx[i]
+        if (0 <= ny < N and 0 <= nx < N) and (not visited_ok[ny][nx]) and (color == colors[ny][nx]):
+            find_area(ny, nx, color)
+    return 1
 
-#=======비색맹인 버전==================
-visit = [[0]*n for _ in range(n)]
-answer = 0
+def find_not_area(y, x, color):
+    global dy, dx, N, visited_not
 
-for color in ['R', 'G', 'B']: #비색맹인
-    for i in range(n):
-        for j in range(n):
-            if visit[i][j] == 0 and arr[i][j] == color:
-                dfs(i, j, color)
-                answer += 1
+    visited_not[y][x] = True
 
-print(answer, end=" ")
+    for i in range(4):
+        ny, nx = y + dy[i], x + dx[i]
+        if (0 <= ny < N and 0 <= nx < N) and (not visited_not[ny][nx]):
+          if color == 'B': # 파랑일 경우
+              if color == colors[ny][nx]: find_not_area(ny, nx, color)
+          else: # 빨강, 초록일 경우
+            if colors[ny][nx] == 'R' or colors[ny][nx] == 'G':
+              find_not_area(ny, nx, color)
+    return 1
 
-#=======색맹인 버전=====================
-visit = [[0]*n for _ in range(n)] #색맹인을 세기 위해 다시 초기화
-answer = 0
+N = int(input())
+colors = [input() for _ in range(N)]
+visited_ok = [[False] * N for _ in range(N)]
+visited_not = [[False] * N for _ in range(N)]
 
-for i in range(n): #색맹인 배열로 수정
-    for j in range(n):
-        if not arr[i][j] == 'B':
-            arr[i][j] = 'N'
+count_ok = 0 # 적록색약이 아닌 사람
+count_not = 0 # 적록색약인 사람
 
-for color in ['B', 'N']:
-    for i in range(n):
-        for j in range(n):
-            if visit[i][j] == 0 and arr[i][j] == color:
-                dfs(i, j, color)
-                answer += 1
+for i in range(N):
+    for j in range(N):
+        if not visited_ok[i][j]:
+          count_ok += find_area(i, j, colors[i][j])
+        if not visited_not[i][j]:
+          count_not += find_not_area(i, j, colors[i][j])
 
-print(answer, end="")
+print(count_ok, count_not)

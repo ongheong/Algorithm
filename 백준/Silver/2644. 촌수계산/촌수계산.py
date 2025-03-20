@@ -1,34 +1,34 @@
 import sys
-
 input = sys.stdin.readline
+sys.setrecursionlimit(10**5)
 
 n = int(input())
-a, b = map(int, input().split())
-m = int(input())
-
-if a > b:
-    a, b = b, a
-
 family = [[] for _ in range(n+1)]
-visit = [0]*(n+1)
-result = []
+visited = [False]*(n+1)
+
+target = list(map(int, input().split()))
+
+m = int(input())
+flag = False
 
 for _ in range(m):
-    x, y = map(int, input().strip().split()) #부모 x, 자식 y
-    family[x] += [y]
-    family[y] += [x]
+    a, b = map(int, input().split())
+    family[a].append(b)
+    family[b].append(a)
 
 def dfs(v, cnt):
-    # global cnt
-    cnt += 1
-    # print(v, cnt)
-    if v == b:
-        result.append(cnt)
-    visit[v] = 1
-    for person in family[v]:
-        if visit[person] == 0:
-            dfs(person, cnt)
+    global flag
+    for node in family[v]:
+        if not visited[node]:
+            visited[node] = True
+            if node == target[1]:
+                print(cnt)
+                flag = True
+                exit()
+            dfs(node, cnt+1)
 
-dfs(a, 0)
-if len(result) == 0: print(-1)
-else : print(result[0]-1)
+visited[target[0]] = True
+dfs(target[0], 1)
+
+if not flag:
+    print(-1)

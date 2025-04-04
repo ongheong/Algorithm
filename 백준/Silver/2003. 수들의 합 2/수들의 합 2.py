@@ -1,23 +1,18 @@
-def sol(N, M, a):
-    s, e = 0, 0
-    subsum = a[0]
-    cnt = 0
-    while True:
-        if subsum < M:  # 작으면 end point +1
-            e += 1
-            if e >= N:  # 인덱스 범위 주의
-                break
-            subsum += a[e]
-        elif subsum == M:  # 같으면 cnt +1
-            cnt += 1
-            subsum -= a[s]
-            s += 1
-        else:  # 크면 start point +1
-            subsum -= a[s]
-            s += 1
-    return cnt
+import sys
 
+n, m = map(int, input().split())
+arr = list(map(int, input().split()))
+sum_val = 0
+end = 0
+count = 0
 
-N, M = map(int, input().split())
-a = list(map(int, input().split()))
-print(sol(N, M, a))
+for i in range(n):
+    while sum_val < m and end < n:
+        sum_val += arr[end]
+        end += 1
+    if sum_val == m:
+        count += 1
+    sum_val -= arr[i]
+
+print(count)
+

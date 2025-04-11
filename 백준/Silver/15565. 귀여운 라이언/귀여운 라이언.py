@@ -1,22 +1,23 @@
-import sys
-from collections import deque
+n, k = map(int, input().split())
+arr = list(map(int, input().split()))
 
-if __name__ == '__main__':
-    N, K = map(int, sys.stdin.readline().split())
-    arr = list(map(int, sys.stdin.readline().split()))
+size = cnt = end = 0
+answer = int(1e9)
 
-    ans = sys.maxsize
-    left, right = 0, 0
-    cnt = 0
-    q = deque()
-    for start in range(N):
-        while right < N and cnt < K:
-            q.append(arr[right])
-            if arr[right] == 1: cnt += 1
-            right += 1
-        if cnt == K:
-            ans = min(len(q), ans)
-            if arr[left] == 1: cnt -= 1
-            left += 1
-            q.popleft()
-    print(ans if ans != sys.maxsize else -1)
+for start in range(n):
+    while cnt < k and end < n:
+        size += 1
+        if arr[end] == 1:
+            cnt += 1
+        end += 1
+    if cnt == k:
+        answer = min(size, answer)
+    
+    if arr[start] == 1:
+        cnt -= 1
+    size -= 1
+
+if answer == int(1e9):
+    print(-1)
+else:
+    print(answer)

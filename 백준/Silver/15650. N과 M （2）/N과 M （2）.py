@@ -1,13 +1,16 @@
 n, m = map(int, input().split())
+ans = []
 
-arr = [0]*m
-
-def combi(idx, cnt):
-    if cnt == m:
-        print(*arr)
+def dfs():
+    if len(ans) == m:
+        print(*ans, sep=" ")
         return
-    for i in range(idx, n+1):
-        arr[cnt] = i
-        combi(i+1, cnt+1)
 
-combi(1, 0)
+    for i in range(1, n+1):
+        if i not in ans:
+            if len(ans) == 0 or i > max(ans):
+                ans.append(i)
+                dfs()
+                ans.pop()
+
+dfs()

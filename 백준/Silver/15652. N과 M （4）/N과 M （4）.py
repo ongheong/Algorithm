@@ -1,15 +1,12 @@
-n,m = map(int, input().split())
- 
-s = []
- 
-def dfs(start):
-    if len(s)==m:
-        print(' '.join(map(str,s)))
+def backtrack(stack, start):
+    if len(stack) == m:
+        print(' '.join(map(str, stack)))
         return
-    
+
     for i in range(start, n+1):
-        s.append(i)
-        dfs(i)
-        s.pop()
-    
-dfs(1)
+        stack.append(i)
+        backtrack(stack, i)
+        stack.pop()
+
+n, m = map(int, input().split())
+backtrack([], 1)

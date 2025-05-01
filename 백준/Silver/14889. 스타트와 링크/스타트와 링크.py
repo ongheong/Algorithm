@@ -1,29 +1,29 @@
-import sys
-input = sys.stdin.readline
-N = int(input())
-board = [list(map(int,input().split())) for _ in range(N)]
-visited = [False for _ in range(N)]
-INF = 2147000000
-res = INF
-
-def DFS(L,idx):
-    global res
-    if L == N//2:
-        A = 0
-        B = 0
-        for i in range(N):
-            for j in range(N):
+def backtrack(index, depth):
+    start, link = 0, 0
+    if depth == m:
+        for i in range(n):
+            for j in range(n):
                 if visited[i] and visited[j]:
-                    A += board[i][j]
+                    start += arr[i][j]
                 elif not visited[i] and not visited[j]:
-                    B +=board[i][j]
-        res = min(res, abs(A-B))
+                    link += arr[i][j]
+        answer.append(abs(start - link))
         return
-    for i in range(idx,N):
-        if not visited[i]:
+    
+    for i in range(index, n):
+        if visited[i] == False:
             visited[i] = True
-            DFS(L+1,i+1)
+            backtrack(i+1, depth + 1)
             visited[i] = False
-            
-DFS(0,0)
-print(res)
+
+n = int(input())
+arr = [[] for _ in range(n)]
+answer = []
+m = n / 2
+visited = [False]*n
+
+for i in range(n):
+    arr[i] = list(map(int, input().split()))
+
+backtrack(0, 0)
+print(min(answer))

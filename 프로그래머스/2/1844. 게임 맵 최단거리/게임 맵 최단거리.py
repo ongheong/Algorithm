@@ -1,37 +1,26 @@
 from collections import deque
 
-def bfs(x, y, maps):
-    n = len(maps)
-    m = len(maps[0])
-    
-    # 방향 설정: 상, 하, 좌, 우
-    dx = [-1, 1, 0, 0]
-    dy = [0, 0, -1, 1]
-    
-    # 방문한 노드를 체크하기 위한 배열
-    visited = [[False] * m for _ in range(n)]
-    queue = deque([(x, y, 1)])  # (x, y, 거리)
-    visited[x][y] = True
-    
-    while queue:
-        x, y, dist = queue.popleft()
-        
-        # 목표 지점에 도달했을 경우 즉시 종료
-        if x == n - 1 and y == m - 1:
-            return dist
-        
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            
-            if 0 <= nx < n and 0 <= ny < m and not visited[nx][ny] and maps[nx][ny] == 1:
-                visited[nx][ny] = True
-                queue.append((nx, ny, dist + 1))
-                
-    return -1  # 목표 지점에 도달하지 못했을 경우
-
 def solution(maps):
-    # 시작 지점이 막혀있으면 도달할 수 없음
-    if maps[0][0] == 0:
-        return -1
-    return bfs(0, 0, maps)
+    answer = 0
+    queue = deque([])
+    d = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+    n = len(maps) # 열 = y
+    m = len(maps[0]) # 행 = x
+    
+    queue.append([0,0])
+    while queue:
+        y, x = queue.popleft()
+        if y == n-1 and x == m-1:
+            answer = maps[y][x]
+            break
+        for i in range(4):
+            dy, dx = y + d[i][0], x + d[i][1]
+            if 0 <= dy < n and 0 <= dx < m:
+                if maps[dy][dx] == 1:
+                    queue.append([dy, dx])
+                    maps[dy][dx] += maps[y][x] # 값 갱신
+    
+    if not answer: # 진영에 도착 못하면
+        answer = -1
+        
+    return answer

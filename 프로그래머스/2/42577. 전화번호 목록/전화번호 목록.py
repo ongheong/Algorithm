@@ -1,9 +1,13 @@
 def solution(phone_book):
     answer = True
-    phone_book.sort()
-    lg = len(phone_book)
-    for i in range(lg-1):
-        if phone_book[i] == phone_book[i+1][:len(phone_book[i])]:
-            answer = False
-            return answer
+    hash = dict()
+    for phone in phone_book:
+        hash[phone] = 1
+        
+    for phone in phone_book:
+        str = "" # 부분문자열을 통해 접두어를 찾는다.
+        for number in phone:
+            str += number
+            if str in hash and str != phone:
+                return False
     return answer

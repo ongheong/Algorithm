@@ -1,6 +1,6 @@
 # [level 2] 조건에 맞는 도서와 저자 리스트 출력하기 - 144854 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/144854#qna) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/144854) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@ Empty
 
 ### 제출 일자
 
-2024년 05월 15일 11:46:30
+2025년 05월 08일 15:13:26
 
 ### 문제 설명
 

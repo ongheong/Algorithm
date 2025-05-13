@@ -1,23 +1,25 @@
-import sys
+def backtrack(index):
+    global n, answer
 
-def dfs(depth):
-    if depth == N:
-        result.append(sum(abs(explore[i] - explore[i + 1]) for i in range(N - 1)))
+    if index == n: 
+        tmp = 0
+        for i in range(n-1):
+            tmp += abs(case[i+1] - case[i])
+        answer = max(answer, tmp)
         return
-    for i in range(N):
-        if visited[i]:
-            continue
-        explore.append(A[i])
-        visited[i] = 1
-        dfs(depth + 1)
-        visited[i] = 0
-        explore.pop()
 
-input = sys.stdin.readline
-N = int(input())
-A = list(map(int, input().split()))
+    for i in range(0, n):
+        if visited[i] == False:
+            visited[i] = True
+            case.append(arr[i])
+            backtrack(index+1)
+            case.pop()
+            visited[i] = False
 
-visited = [0] * N
-result, explore = [], []
-dfs(0)
-print(max(result))
+n = int(input())
+arr = list(map(int, input().split()))
+case = []
+visited = [False]*n
+answer = 0
+backtrack(0)
+print(answer)

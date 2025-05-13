@@ -1,19 +1,21 @@
-from collections import deque
-global k, S, result
+import sys
+input = sys.stdin.readline
 
-def cntNum(idx, cnt):
-    if cnt == 6: 
-        print(*result)
+def backtrack(depth, case, start):
+    global n
+    if depth == 6:
+        print(' '.join(map(str, case)))
         return
-    for i in range(idx, k):
-        result[cnt] = S[i]
-        cntNum(i+1, cnt+1)
+    for i in range(start, n):
+        case.append(arr[i])
+        backtrack(depth+1, case, i+1)
+        case.pop()
 
-while True:
-    S = deque(map(int, input().split()))
-    if S[0]== 0:
-        break
-    k = S.popleft()
-    result = [0]*6;
-    cntNum(0, 0);
+arr = list(map(int, input().split()))
+
+while arr[0]:
+    n = arr[0]
+    arr.pop(0)
+    backtrack(0, [], 0)
     print()
+    arr = list(map(int, input().split()))

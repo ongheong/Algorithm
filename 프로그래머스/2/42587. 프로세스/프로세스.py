@@ -1,27 +1,26 @@
 from collections import deque
+import heapq
 
-def compare(now, deq):
-    for d in deq:
-        if now[0] < d[0]:
-            return 1
-    return 0
+def solution(priorities, location):
+    answer = 1
+    priors = deque([])
+    max_priors = []
+    length = len(priorities)
 
-def solution(priorities, location): #2 1 3 2 -> (2,0),(1,1),(3,2),(2,3)
-    answer = 0
-    deq = deque()
-    for i in range(len(priorities)):
-        deq.append([priorities[i], i])
-    while deq:
-        now = deq.popleft()
-        if len(deq) != 0 and compare(now, deq):
-            deq.append(now)
-            continue
-        if now[1] == location:
-            return answer+1
-        answer += 1
-        #print(*deq, answer)
+    for i in range(length):
+        priors.append((priorities[i], i))
+        heapq.heappush(max_priors, -priorities[i])
+    
+    while priors:
+        prior, index = priors.popleft()
         
-# 1' 1 9 1 1 1
-# 1 9 1 1 1 1'
-# 9 1 1 1 1' 1
-# 1 1 1 1' 1, answer = 1
+        if prior < -max_priors[0]:
+            priors.append((prior, index))
+        else:     
+            if index == location:
+                return answer
+            answer += 1
+            heapq.heappop(max_priors)
+        
+    return answer # 사실상 거의 사용안됨
+# 

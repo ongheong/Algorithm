@@ -53,18 +53,15 @@ def backtracking(depth, start):
 input = sys.stdin.readline
 n = int(input())
 classroom = [[] for _ in range(n)]
-students = []
 teachers = []
 blocks = []
 
 for i in range(n):
     classroom[i] = list(input().rstrip().split())
     for j in range(n):
-        if classroom[i][j] == 'S':
-            students.append((i, j))
-        elif classroom[i][j] == 'T':
+        if classroom[i][j] == 'T':
             teachers.append((i, j))
-        else:
+        elif classroom[i][j] == 'X':
             blocks.append((i, j))
 
 visited = [False]*len(blocks)

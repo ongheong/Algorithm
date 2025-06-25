@@ -3,15 +3,17 @@ import copy
 input = sys.stdin.readline
 
 def change_color(row, col):
+    # draw1은 왼쪽 위가 B일 때 바꿔야 하는 칸 수
+    # draw2는 W일 때 바꿔야 하는 칸 수
     draw1, draw2 = 0, 0
     for i in range(row, row+8):
         for j in range(col, col+8):
-            if (i + j) % 2 == 0:
+            if (i + j) % 2 == 0: # 짝수인 칸은 첫 칸과 같은 색
                 if board[i][j] != 'B':
                     draw1 += 1
                 else:
                     draw2 += 1
-            else:
+            else: # 홀수인 칸은 첫 칸과 다른 색
                 if board[i][j] != 'W':
                     draw1 += 1
                 else:

@@ -1,13 +1,15 @@
 from collections import deque
 
 N, K = map(int, input().split())
-queue = deque([])
+arr = []
 for i in range(1, N+1):
-    queue.append(i)
+    arr.append(i)
 answer = []
-while queue:
-    for _ in range(K-1):
-        queue.append(queue.popleft())
-    answer.append(queue.popleft())
-print("<", end="")
-print(*answer, sep=", ", end=">")
+idx = 0
+while arr:
+    idx += K - 1
+    if idx >= len(arr):
+        idx = idx % len(arr)
+    answer.append(str(arr.pop(idx)))
+
+print("<"+", ".join(answer)+">")

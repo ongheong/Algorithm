@@ -1,15 +1,12 @@
-import sys
-input = sys.stdin.readline
+sugar = int(input())
 
-n = int(input())
-cnt = 0
-
-while n >= 0:
-    if n % 5 == 0: #5의 배수이면
-        cnt += (n // 5) #5로 나눈 몫을 구하기
-        print(cnt)
+bag = 0
+while sugar >= 0 :
+    if sugar % 5 == 0 :  
+        bag += (sugar // 5)  
+        print(bag)
         break
-    n -= 3 #5의 배수가 될 때까지 3씩 빼기
-    cnt += 1
-else:
+    sugar -= 3  
+    bag += 1  
+else :
     print(-1)
